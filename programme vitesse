@@ -1,0 +1,57 @@
+const byte PIN_LED = 3;   # intialisation led port numero 3
+
+int tour=0;                     //variable en nb entier
+int tour_precedent=0;
+
+long duree_test = 3000; // test sur 3 secondes
+long chrono_depart = 0; // valeur de départ du chrono
+long chrono = 0; // valeur courante du chrono
+long chrono_precedent=0;
+long nb_chgt = 0; // nb de changement etat Pin
+
+float vitesse = 0;              //variable decimale
+float vitesse_moyenne;
+float distance=0;
+float perimetre;
+
+void gere_int0 () // Gestion de l'interruption 
+{ 
+    nb_chgt = nb_chgt + 1 ;  
+}
+
+void setup ()
+{
+  pinMode(PIN_LED, OUTPUT);
+  perimetre= ????;  //pérmimètre de la roue en cmm      
+  chrono_depart = millis();     //chrono de départ
+  attachInterrupt(0,gere_int0,CHANGE); 
+}
+  
+void loop() {
+ 
+  int nb_tour;
+  tour=nb_chgt/2;  //initialisation du nombre de chgt capté (1 a chaque passage de l'aimant)
+  chrono = millis();
+  if (tour_precedent!=tour) 
+  {     
+  nb_tour=tour-tour_precedent;
+  tour_precedent=tour;
+    
+  distance=(distance+nb_tour*perimetre/100); // en m
+  vitesse=0.01*3600*(nb_tour*perimetre)/(chrono-chrono_precedent); //km par h
+  chrono_precedent=chrono;
+  vitesse_moyenne=0.01*3600*distance/(chrono-chrono_depart);
+  } 
+  
+  else if ((chrono-chrono_precedent>4000) and (vitesse!=0))
+    {
+   
+     vitesse=0;
+     chrono_precedent=chrono; 
+     vitesse=0;
+     
+     vitesse_moyenne=3600*distance/(chrono-chrono_depart);
+     }    
+     delay(1000);
+     
+     
