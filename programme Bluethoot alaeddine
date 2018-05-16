@@ -1,0 +1,48 @@
+#include <SoftwareSerial.h>
+const byte PIN_LED = 3;
+SoftwareSerial btSerial(6, 7);
+
+void setup()
+{
+pinMode(PIN_LED, OUTPUT);
+
+setupBlueToothConnection();
+}
+
+void loop()
+{
+if (btSerial.available())
+{
+char cmd = btSerial.read();
+if (cmd=='1')
+{
+digitalWrite(PIN_LED, HIGH);
+}
+else if (cmd=='0')
+{
+digitalWrite(PIN_LED, LOW);
+}
+}
+
+{
+   
+btSerial.write("1");
+delay(1000);
+btSerial.write("0");
+delay(1000);
+}
+}
+void setupBlueToothConnection()
+{
+btSerial.begin(38400);
+btSerial.print("\r\n+STWMOD=0\r\n"); 
+btSerial.print("\r\n+STNA=WOODBIKE\r\n"); 
+btSerial.print("\r\n+STPIN=1234\r\n");
+btSerial.print("\r\n+STOAUT=1\r\n"); 
+btSerial.print("\r\n+STAUTO=0\r\n");
+delay(2000); 
+btSerial.print("\r\n+INQ=1\r\n"); 
+Serial.println("The slave bluetooth is inquirable!");
+delay(2000);
+btSerial.flush();
+}
