@@ -1,4 +1,4 @@
-const byte PIN_LED = 3;   # intialisation led port numero 3
+const byte PIN_LED = 3;   // intialisation led port numero 3
 
 int tour=0;                     //variable en nb entier
 int tour_precedent=0;
@@ -6,6 +6,7 @@ int tour_precedent=0;
 long duree_test = 3000; // test sur 3 secondes
 long chrono_depart = 0; // valeur de départ du chrono
 long chrono = 0; // valeur courante du chrono
+long chrono2 = 0;
 long chrono_precedent=0;
 long nb_chgt = 0; // nb de changement etat Pin
 
@@ -22,9 +23,10 @@ void gere_int0 () // Gestion de l'interruption
 void setup ()
 {
   pinMode(PIN_LED, OUTPUT);
-  perimetre= ????;  //pérmimètre de la roue en cmm      
+  perimetre= 100;  //pérmimètre de la roue en cmm      
   chrono_depart = millis();     //chrono de départ
   attachInterrupt(0,gere_int0,CHANGE); 
+  Serial.begin(9600);
 }
   
 void loop() {
@@ -41,6 +43,14 @@ void loop() {
   vitesse=0.01*3600*(nb_tour*perimetre)/(chrono-chrono_precedent); //km par h
   chrono_precedent=chrono;
   vitesse_moyenne=0.01*3600*distance/(chrono-chrono_depart);
+  Serial.print(String("Votre vitesse est"+String(vitesse))); 
+  Serial.print("&");
+  Serial.print(String("Votre distance est"+String(distance))); 
+  Serial.print("&");
+  Serial.print(String("Votre temps est"+String((chrono-chrono_depart)/1000)));
+  Serial.print("&");
+  Serial.print(String("Votre vitesse moyenne est"+String(vitesse_moyenne)));
+  Serial.print("&");
   }  
   
   
@@ -50,14 +60,17 @@ void loop() {
      vitesse=0;
      chrono_precedent=chrono; 
      vitesse=0;
+     chrono2=(chrono-chrono_depart)/1000;
      
-     vitesse_moyenne=3600*distance/(chrono-chrono_depart);
-     
+     Serial.print(String("Votre vitesse est"+String(vitesse))); 
+     Serial.print("&");
+     Serial.print(String("Votre distance est"+String(distance))); 
+     Serial.print("&");
+     Serial.print(String("Votre temps est"+String((chrono-chrono_depart)/1000)));
+     Serial.print("&");
+     Serial.print(String("Votre vitesse moyenne est"+String(vitesse_moyenne)));
+     Serial.print("&");
      }    
      delay(1000);
      }
      
-print ("Votre vitesse est", vitesse)
-print ("Votre vitesse moyenne est", vitesse_moyenne)
-print ("Votre distance est", distance)
-print ("Votre temps est" ,chrono)
