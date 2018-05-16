@@ -41,7 +41,8 @@ void loop() {
   vitesse=0.01*3600*(nb_tour*perimetre)/(chrono-chrono_precedent); //km par h
   chrono_precedent=chrono;
   vitesse_moyenne=0.01*3600*distance/(chrono-chrono_depart);
-  } 
+  }  
+  
   
   else if ((chrono-chrono_precedent>4000) and (vitesse!=0))
     {
@@ -51,7 +52,12 @@ void loop() {
      vitesse=0;
      
      vitesse_moyenne=3600*distance/(chrono-chrono_depart);
+     
      }    
      delay(1000);
+     }
      
-     
+print ("Votre vitesse est", vitesse)
+print ("Votre vitesse moyenne est", vitesse_moyenne)
+print ("Votre distance est", distance)
+print ("Votre temps est" ,chrono)
