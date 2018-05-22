@@ -11,7 +11,7 @@ float diametre=0.62; // 0.62m = 62,2 cm
 int nb_aimants=2;
 float distance= ((2*3.14)/nb_aimants)*(diametre/2) ;// distance entre deux aimant= rayon * (angle=2pi/nombre d'aimants)
 float vitesse_km;
-float masse= 70;
+float masse= 70; // masse du cycliste
 void gere_int1() // Gestion de l'interruption 
 { 
     temps_prece= temps;
@@ -33,6 +33,7 @@ setupBlueToothConnection();  //fonction initialisation bluetooth
 
 void loop() {
   // put your main code here, to run repeatedly:
+
 vitesse = distance/temps_prece;
 vitesse_km=vitesse*3.6;
 btSerial.print(vitesse_km); 
@@ -42,6 +43,11 @@ depense=(0.86*(0.26*vitesse*vitesse*vitesse+ 0.1*vitesse*masse))*(temps_prece/36
 calories= calories + depense; 
 btSerial.print(calories); 
 
+
+if(temps>4000){     // on considère que si en 4 secondes le cycliste ne une distance entre 2 aimants, il est au arrêt
+  temps_prece=0;
+  temps=0;
+  }
 }
 void setupBlueToothConnection()    //initialisation bluetooth
   {
